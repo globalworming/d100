@@ -53,7 +53,7 @@ export const D100Roller = () => {
     // Step 2: Converging animation from 50% to rolled result
     let randomCount = 0;
     const randomInterval = setInterval(() => {
-      const iterations = 20;
+      const iterations = 6;
       const progress = randomCount / iterations; // 0 to 1 over 10 frames
       setItems(generateConvergingItems(rolledResult, progress));
       randomCount++;
@@ -74,7 +74,7 @@ export const D100Roller = () => {
           setPhase("sorted");
         }, 1200 - 10 * rolledResult);
       }
-    }, 30);
+    }, 140);
   }, [phase]);
 
   // Fullscreen handling
