@@ -7,18 +7,32 @@ import { FullscreenButton } from "./FullscreenButton";
 
 type Phase = "idle" | "random" | "sorting" | "sorted";
 
-const generateRandomItems = (): boolean[] => {
+// Generate items with exactly `count` dots randomly distributed
+const generateItemsWithDots = (count: number): boolean[] => {
+  const items = Array.from({ length: 100 }, (_, i) => i < count);
+  // Fisher-Yates shuffle
+  for (let i = items.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [items[i], items[j]] = [items[j], items[i]];
+  }
+  return items;
+};
+
+// Generate completely random items for the shuffling animation
+const generateChaoticItems = (): boolean[] => {
   return Array.from({ length: 100 }, () => Math.random() > 0.5);
 };
 
-const countDots = (items: boolean[]): number => {
-  return items.filter(Boolean).length;
+// Roll D100 (1-100)
+const rollD100 = (): number => {
+  return Math.floor(Math.random() * 100) + 1;
 };
 
 export const D100Roller = () => {
-  const [items, setItems] = useState<boolean[]>(() => generateRandomItems());
+  const initialResult = rollD100();
+  const [items, setItems] = useState<boolean[]>(() => generateItemsWithDots(initialResult));
   const [phase, setPhase] = useState<Phase>("idle");
-  const [result, setResult] = useState<number | null>(() => countDots(generateRandomItems()));
+  const [result, setResult] = useState<number | null>(initialResult);
   const [history, setHistory] = useState<number[]>([]);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -26,29 +40,30 @@ export const D100Roller = () => {
   const roll = useCallback(() => {
     if (phase !== "idle" && phase !== "sorted") return;
 
-    // Start randomizing
+    // Step 1: Roll D100 to determine the result
+    const rolledResult = rollD100();
+    setResult(null); // Hide result during animation
     setPhase("random");
     
-    // Rapid randomization for visual effect
+    // Step 2: Rapid chaotic randomization for visual effect
     let randomCount = 0;
     const randomInterval = setInterval(() => {
-      setItems(generateRandomItems());
+      setItems(generateChaoticItems());
       randomCount++;
       if (randomCount >= 8) {
         clearInterval(randomInterval);
         
-        // Generate final result
-        const finalItems = generateRandomItems();
+        // Step 3: Generate items with exactly `rolledResult` dots, randomly placed
+        const finalItems = generateItemsWithDots(rolledResult);
         setItems(finalItems);
         
-        // Start sorting
+        // Step 4: Start sorting animation
         setPhase("sorting");
         
-        // Complete sort after animation
+        // Step 5: Complete - show result
         setTimeout(() => {
-          const dotCount = countDots(finalItems);
-          setResult(dotCount);
-          setHistory((prev) => [dotCount, ...prev]);
+          setResult(rolledResult);
+          setHistory((prev) => [rolledResult, ...prev]);
           setPhase("sorted");
         }, 1200);
       }
