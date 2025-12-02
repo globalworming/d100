@@ -89,23 +89,6 @@ export const D100Roller = () => {
     return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
   }, []);
 
-  // Keyboard shortcut
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.code === "Space" && !e.repeat) {
-        e.preventDefault();
-        roll();
-      }
-      if (e.code === "KeyF") {
-        toggleFullscreen();
-      }
-      if (e.code === "KeyH") {
-        setHistoryOpen((prev) => !prev);
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [roll, toggleFullscreen]);
 
   const isRolling = phase === "random" || phase === "sorting";
 
@@ -124,13 +107,6 @@ export const D100Roller = () => {
         
         <div className="flex flex-col items-center gap-4 mt-8">
           <RollButton onClick={roll} disabled={isRolling} />
-          <p className="text-muted-foreground text-xs font-mono">
-            Press <kbd className="px-1.5 py-0.5 rounded bg-secondary text-secondary-foreground">Space</kbd> to roll
-            {" • "}
-            <kbd className="px-1.5 py-0.5 rounded bg-secondary text-secondary-foreground">F</kbd> fullscreen
-            {" • "}
-            <kbd className="px-1.5 py-0.5 rounded bg-secondary text-secondary-foreground">H</kbd> history
-          </p>
         </div>
       </div>
     </div>

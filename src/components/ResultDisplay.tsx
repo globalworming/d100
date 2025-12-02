@@ -18,12 +18,6 @@ export const ResultDisplay = ({ result, phase }: ResultDisplayProps) => {
       >
         {result !== null ? result : "—"}
       </div>
-      <p className="text-muted-foreground text-sm mt-2 font-mono uppercase tracking-widest">
-        {phase === "idle" && "Ready to roll"}
-        {phase === "random" && "Randomizing..."}
-        {phase === "sorting" && "Counting dots..."}
-        {phase === "sorted" && result !== null && `${result} dots found`}
-      </p>
     </div>
   );
 };
