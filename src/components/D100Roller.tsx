@@ -18,9 +18,14 @@ const generateItemsWithDots = (count: number): boolean[] => {
   return items;
 };
 
-// Generate completely random items for the shuffling animation
-const generateChaoticItems = (): boolean[] => {
-  return Array.from({ length: 100 }, () => Math.random() > 0.5);
+// Generate items with probability that converges from 50% to the target result
+const generateConvergingItems = (targetResult: number, progress: number): boolean[] => {
+  // progress: 0 (start) to 1 (end)
+  // Start at 50% probability, converge to targetResult/100
+  const targetProbability = targetResult / 100;
+  const currentProbability = 0.5 + (targetProbability - 0.5) * progress;
+  
+  return Array.from({ length: 100 }, () => Math.random() < currentProbability);
 };
 
 // Roll D100 (1-100)
@@ -45,12 +50,14 @@ export const D100Roller = () => {
     setResult(null); // Hide result during animation
     setPhase("random");
     
-    // Step 2: Rapid chaotic randomization for visual effect
+    // Step 2: Converging animation from 50% to rolled result
     let randomCount = 0;
     const randomInterval = setInterval(() => {
-      setItems(generateChaoticItems());
+      const iterations = 20;
+      const progress = randomCount / iterations; // 0 to 1 over 10 frames
+      setItems(generateConvergingItems(rolledResult, progress));
       randomCount++;
-      if (randomCount >= 8) {
+      if (randomCount >= iterations) {
         clearInterval(randomInterval);
         
         // Step 3: Generate items with exactly `rolledResult` dots, randomly placed
@@ -65,9 +72,9 @@ export const D100Roller = () => {
           setResult(rolledResult);
           setHistory((prev) => [rolledResult, ...prev]);
           setPhase("sorted");
-        }, 1200);
+        }, 1200 - 10 * rolledResult);
       }
-    }, 80);
+    }, 30);
   }, [phase]);
 
   // Fullscreen handling

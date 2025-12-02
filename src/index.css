@@ -1,8 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
 @layer base {
   :root {
@@ -105,23 +106,6 @@
   }
 }
 
-@keyframes shuffle {
-  0% {
-    transform: translateX(0) translateY(0) rotate(0deg);
-  }
-  25% {
-    transform: translateX(var(--shuffle-x, 10px)) translateY(var(--shuffle-y, -10px)) rotate(var(--shuffle-r, 5deg));
-  }
-  50% {
-    transform: translateX(calc(var(--shuffle-x, 10px) * -0.5)) translateY(calc(var(--shuffle-y, -10px) * 0.5)) rotate(calc(var(--shuffle-r, 5deg) * -1));
-  }
-  75% {
-    transform: translateX(calc(var(--shuffle-x, 10px) * 0.3)) translateY(calc(var(--shuffle-y, -10px) * -0.3)) rotate(calc(var(--shuffle-r, 5deg) * 0.5));
-  }
-  100% {
-    transform: translateX(0) translateY(0) rotate(0deg);
-  }
-}
 
 @keyframes fade-in-up {
   from {
@@ -134,9 +118,6 @@
   }
 }
 
-.animate-shuffle {
-  animation: shuffle 0.6s ease-out;
-}
 
 .animate-fade-in-up {
   animation: fade-in-up 0.3s ease-out;
