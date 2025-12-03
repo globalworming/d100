@@ -17,7 +17,6 @@ export const DiceItem = ({ hasDot, index, phase, sortedIndex }: DiceItemProps) =
       className={cn(
         "w-full aspect-square rounded-sm flex items-center justify-center transition-all duration-500",
         "bg-secondary/50 border border-border/30",
-        phase === "random" && "animate-shuffle",
         phase === "sorting" && "transition-all duration-700 ease-out"
       )}
       style={{
