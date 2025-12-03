@@ -3,9 +3,10 @@ import { DiceItem } from "./DiceItem";
 interface DiceGridProps {
   items: boolean[];
   phase: "idle" | "random" | "sorting" | "sorted";
+  onClick?: () => void;
 }
 
-export const DiceGrid = ({ items, phase }: DiceGridProps) => {
+export const DiceGrid = ({ items, phase, onClick }: DiceGridProps) => {
   // Create sorted indices - falses first, then trues
   const sortedIndices = items
     .map((hasDot, originalIndex) => ({ hasDot, originalIndex }))
@@ -35,7 +36,10 @@ export const DiceGrid = ({ items, phase }: DiceGridProps) => {
 
   return (
     <div className="p-2">
-      <div className="relative w-full max-w-lg mx-auto" >
+      <div 
+        className="relative w-full max-w-lg mx-auto cursor-pointer"
+        onClick={onClick && (phase === "idle" || phase === "sorted") ? onClick : undefined}
+      >
         <div 
           className={`absolute inset-0 ${phase === "random" ? "animate-shuffle" : ""}`}
           style={{

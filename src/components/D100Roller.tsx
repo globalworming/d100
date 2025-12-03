@@ -110,7 +110,7 @@ export const D100Roller = () => {
 
       <div className="w-full max-w-2xl mx-auto">
         <ResultDisplay result={result} phase={phase} />
-        <DiceGrid items={items} phase={phase} />
+        <DiceGrid items={items} phase={phase} onClick={roll} />
         
         <div className="flex flex-col items-center gap-4 mt-8">
           <RollButton onClick={roll} disabled={isRolling} />
