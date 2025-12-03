@@ -8,10 +8,6 @@ interface DiceItemProps {
 }
 
 export const DiceItem = ({ hasDot, index, phase, sortedIndex }: DiceItemProps) => {
-  const shuffleX = (Math.random() - 0.5) * 30;
-  const shuffleY = (Math.random() - 0.5) * 30;
-  const shuffleR = (Math.random() - 0.5) * 20;
-
   return (
     <div
       className={cn(
@@ -20,9 +16,6 @@ export const DiceItem = ({ hasDot, index, phase, sortedIndex }: DiceItemProps) =
         phase === "sorting" && "transition-all duration-700 ease-out"
       )}
       style={{
-        "--shuffle-x": `${shuffleX}px`,
-        "--shuffle-y": `${shuffleY}px`,
-        "--shuffle-r": `${shuffleR}deg`,
         transitionDelay: phase === "sorting" ? `${sortedIndex * 8}ms` : "0ms",
         order: phase === "sorted" || phase === "sorting" ? sortedIndex : index,
       } as React.CSSProperties}

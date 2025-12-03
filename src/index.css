@@ -126,3 +126,25 @@
 .animate-pulse-dot {
   animation: pulse-dot 2s ease-in-out infinite;
 }
+
+@keyframes shuffle {
+  0% {
+    transform: translateX(0) translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateX(var(--shuffle-x, 10px)) translateY(var(--shuffle-y, -10px)) rotate(var(--shuffle-r, 5deg));
+  }
+  50% {
+    transform: translateX(calc(var(--shuffle-x, 10px) * -0.5)) translateY(calc(var(--shuffle-y, -10px) * 0.5)) rotate(calc(var(--shuffle-r, 5deg) * -1));
+  }
+  75% {
+    transform: translateX(calc(var(--shuffle-x, 10px) * 0.3)) translateY(calc(var(--shuffle-y, -10px) * -0.3)) rotate(calc(var(--shuffle-r, 5deg) * 0.5));
+  }
+  100% {
+    transform: translateX(0) translateY(0) rotate(0deg);
+  }
+}
+
+.animate-shuffle {
+  animation: shuffle 0.6s ease-out;
+}
