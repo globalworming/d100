@@ -1,6 +1,5 @@
 import { useState, useCallback, useEffect } from "react";
 import { DiceGrid } from "./DiceGrid";
-import { RollButton } from "./RollButton";
 import { ResultDisplay } from "./ResultDisplay";
 import { RollHistory } from "./RollHistory";
 import { FullscreenButton } from "./FullscreenButton";
@@ -24,7 +23,7 @@ const generateConvergingItems = (targetResult: number, progress: number): boolea
   // Start at 50% probability, converge to targetResult/100
   const targetProbability = targetResult / 100;
   const currentProbability = 0.5 + (targetProbability - 0.5) * progress;
-  
+
   return Array.from({ length: 100 }, () => Math.random() < currentProbability);
 };
 
@@ -49,7 +48,7 @@ export const D100Roller = () => {
     const rolledResult = rollD100();
     setResult(null); // Hide result during animation
     setPhase("random");
-    
+
     // Step 2: Converging animation from 50% to rolled result
     let randomCount = 0;
     const randomInterval = setInterval(() => {
@@ -59,14 +58,14 @@ export const D100Roller = () => {
       randomCount++;
       if (randomCount >= iterations) {
         clearInterval(randomInterval);
-        
+
         // Step 3: Generate items with exactly `rolledResult` dots, randomly placed
         const finalItems = generateItemsWithDots(rolledResult);
         setItems(finalItems);
-        
+
         // Step 4: Start sorting animation
         setPhase("sorting");
-        
+
         // Step 5: Complete - show result
         setTimeout(() => {
           setResult(rolledResult);
@@ -95,10 +94,6 @@ export const D100Roller = () => {
     document.addEventListener("fullscreenchange", handleFullscreenChange);
     return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
   }, []);
-
-
-  const isRolling = phase === "random" || phase === "sorting";
-
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
       <FullscreenButton isFullscreen={isFullscreen} onToggle={toggleFullscreen} />
@@ -111,10 +106,15 @@ export const D100Roller = () => {
       <div className="w-full max-w-2xl mx-auto">
         <ResultDisplay result={result} phase={phase} />
         <DiceGrid items={items} phase={phase} onClick={roll} />
-        
-        <div className="flex flex-col items-center gap-4 mt-8">
-          <RollButton onClick={roll} disabled={isRolling} />
+
+        <div className="">{
+          <span
+            className={`flex items-center justify-center text-sm uppercase text-muted-foreground transition-opacity duration-1000`}
+            style={{opacity: Math.floor(Math.max(0, 100 - (17 * history.length))) + '%'}}
+          >tap grid to roll</span>
+        }
         </div>
+
       </div>
     </div>
   );
