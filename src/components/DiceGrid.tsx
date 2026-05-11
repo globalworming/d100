@@ -35,9 +35,13 @@ export const DiceGrid = ({ items, phase, onClick }: DiceGridProps) => {
   `)}`;
 
   return (
-    <div className="p-2">
+    <div className="w-full">
       <div 
-        className="relative w-full max-w-lg mx-auto cursor-pointer"
+        className="
+          relative 
+          mx-auto 
+          aspect-square 
+          w-full max-w-[min(92vw,32rem)] cursor-pointer landscape:h-[min(78vh,32rem)] landscape:w-auto landscape:max-w-[78vh]"
         onClick={onClick && (phase === "idle" || phase === "sorted") ? onClick : undefined}
       >
         <div 
@@ -52,8 +56,14 @@ export const DiceGrid = ({ items, phase, onClick }: DiceGridProps) => {
             "--shuffle-r": `${shuffleR}deg`,
           } as React.CSSProperties}
         />
-        <div className={`grid grid-cols-10 gap-1 sm:gap-1.5 relative ${phase === "random" ? "animate-shuffle" : ""}`}
-               style={{
+        <div
+          className={`
+            relative
+            h-full  
+            grid grid-cols-10 
+            gap-1 sm:gap-1.5
+            ${phase === "random" ? "animate-shuffle" : ""}`}
+          style={{
             "--shuffle-x": `${shuffleX}px`,
             "--shuffle-y": `${shuffleY}px`,
             "--shuffle-r": `0deg`,

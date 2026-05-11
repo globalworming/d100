@@ -95,7 +95,7 @@ export const D100Roller = () => {
     return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
   }, []);
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center">
       <FullscreenButton isFullscreen={isFullscreen} onToggle={toggleFullscreen} />
       <RollHistory
         history={history}
@@ -103,18 +103,23 @@ export const D100Roller = () => {
         onToggle={() => setHistoryOpen(!historyOpen)}
       />
 
-      <div className="w-full max-w-2xl mx-auto">
-        <ResultDisplay result={result} phase={phase} />
-        <DiceGrid items={items} phase={phase} onClick={roll} />
+      <div className="mx-auto flex w-full max-w-5xl items-center justify-center">
+        <div className="flex w-full flex-col items-center gap-4 landscape:max-w-none landscape:flex-row landscape:items-center landscape:justify-center landscape:gap-4 md:max-w-2xl">
+          <div className="relative order-2 flex w-full flex-col items-center landscape:order-1 landscape:w-auto landscape:items-center">
+            <DiceGrid items={items} phase={phase} onClick={roll} />
 
-        <div className="">{
-          <span
-            className={`flex items-center justify-center text-sm uppercase text-muted-foreground transition-opacity duration-1000`}
-            style={{opacity: Math.floor(Math.max(0, 100 - (17 * history.length))) + '%'}}
-          >tap grid to roll</span>
-        }
+            <span
+              className="
+                  absolute top-[-1rem] flex items-center justify-center text-center text-xs uppercase text-muted-foreground 
+                  transition-opacity duration-1000"
+              style={{ opacity: Math.floor(Math.max(0, 100 - 40 * history.length)) + "%" }}
+            >
+              tap grid to roll
+            </span>
+          </div>
+
+          <ResultDisplay result={result} phase={phase} />
         </div>
-
       </div>
     </div>
   );

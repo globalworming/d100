@@ -86,13 +86,6 @@
   .glass {
     @apply bg-card/80 backdrop-blur-md border border-border/50;
   }
-
-  .result-display {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: clamp(4rem, 15vw, 10rem);
-    font-weight: 700;
-    line-height: 1;
-  }
 }
 
 @keyframes pulse-dot {
